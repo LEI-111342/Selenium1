@@ -1,55 +1,106 @@
 package com.example.selenium1;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 
+import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.*;
 
-import static com.codeborne.selenide.Condition.attribute;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class MainPageTest {
-    MainPage mainPage = new MainPage();
-
-    @BeforeAll
-    public static void setUpAll() {
-        Configuration.browserSize = "1280x800";
-        SelenideLogger.addListener("allure", new AllureSelenide());
-    }
+    private WebDriver driver;
+    private MainPage mainPage;
 
     @BeforeEach
     public void setUp() {
-        open("https://www.jetbrains.com/");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://www.jetbrains.com/");
+
+        mainPage = new MainPage(driver);
+
+        handleCookies();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        driver.quit();
+    }
+
+    // NOVO MÉTODO: Lida com o pop-up de cookies
+    private void handleCookies() {
+        // Usamos um wait curto, pois o pop-up deve aparecer rapidamente
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        try {
+            // Espera pela visibilidade do botão de aceitar cookies
+            wait.until(
+                    ExpectedConditions.visibilityOf(mainPage.acceptCookiesButton)
+            ).click();
+
+        } catch (Exception e) {
+            // Ignora a exceção se o pop-up não aparecer.
+            // (Isto acontece se o cookie já foi aceite em execuções anteriores.)
+            System.out.println("Aviso: Pop-up de cookies não encontrado ou já foi tratado.");
+        }
     }
 
     @Test
     public void search() {
         mainPage.searchButton.click();
 
-        $("[data-test='search-input']").sendKeys("Selenium");
-        $("button[data-test='full-search-button']").click();
+        WebElement searchField = driver.findElement(By.cssSelector("[data-test-id='search-input']"));
+        searchField.sendKeys("Selenium");
 
-        $("input[data-test='search-input']").shouldHave(attribute("value", "Selenium"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button[data-test='full-search-button']"));
+        submitButton.click();
+
+        WebElement searchPageField = driver.findElement(By.cssSelector("input[data-test-id='search-input']"));
+        assertEquals("Selenium", searchPageField.getAttribute("value"));
     }
 
     @Test
     public void toolsMenu() {
+        try {
+            Thread.sleep( 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         mainPage.toolsMenu.click();
-
-        $("div[data-test='main-submenu']").shouldBe(visible);
+        try {
+            Thread.sleep( 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        WebElement menuPopup = driver.findElement(By.cssSelector("div[data-test='main-submenu-suggestions']"));
+        try {
+            Thread.sleep( 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        assertTrue(menuPopup.isDisplayed());
     }
 
     @Test
     public void navigationToAllTools() {
+        try {
+            Thread.sleep( 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         mainPage.seeDeveloperToolsButton.click();
         mainPage.findYourToolsButton.click();
 
-        $("#products-page").shouldBe(visible);
-
-        assertEquals("All Developer Tools and Products by JetBrains", Selenide.title());
+        WebElement productsList = driver.findElement(By.id("products-page"));
+        assertTrue(productsList.isDisplayed());
+        assertEquals("All Developer Tools and Products by JetBrains", driver.getTitle());
     }
 }
