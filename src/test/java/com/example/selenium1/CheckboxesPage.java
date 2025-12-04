@@ -17,3 +17,4 @@ public class CheckboxesPage {
         PageFactory.initElements(driver, this);
     }
 }
+

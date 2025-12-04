@@ -1,6 +1,5 @@
 package com.example.selenium1;
 
-import com.example.selenium1.pages_111641.DropdownPage;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
