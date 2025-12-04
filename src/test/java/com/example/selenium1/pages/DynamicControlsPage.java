@@ -1,4 +1,4 @@
-package com.example.selenium1;
+package com.example.selenium1.pages;
 
 import com.codeborne.selenide.SelenideElement;
 
