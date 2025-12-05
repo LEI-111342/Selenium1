@@ -25,7 +25,7 @@
   Não participou na Parte 2** (indisponível durante o desenvolvimento).
 
 - **John (LEI-124300):**  
-  *(Espaço reservado para indicar o test suite que implementou.)*
+ Implementou o test suide **Sampler 5 Aceder a um componente do tipo Interaction**
 
 ---
 
