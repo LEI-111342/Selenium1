@@ -1,4 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","14572","toolsMenu()","","2025-12-04","broken","2025-12-04","","com.example.selenium1.MainPageTest","com.example.selenium1.MainPageTest","toolsMenu"
-"","15160","search()","","2025-12-04","passed","2025-12-04","","com.example.selenium1.MainPageTest","com.example.selenium1.MainPageTest","search"
-"","6682","navigationToAllTools()","","2025-12-04","broken","2025-12-04","","com.example.selenium1.MainPageTest","com.example.selenium1.MainPageTest","navigationToAllTools"
