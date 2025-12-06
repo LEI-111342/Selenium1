@@ -31,7 +31,7 @@
 
 # Vídeo Demonstrativo
 
-📌 **YouTube Link:** [_(a inserir)_](https://youtu.be/6Fz9oguYYZU?si=0a2Q6w1XQHJNrpaC)
+📌 **YouTube Link:** https://youtu.be/6Fz9oguYYZU?si=0a2Q6w1XQHJNrpaC
 
 ---
 
